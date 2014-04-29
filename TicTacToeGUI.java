@@ -38,6 +38,8 @@ public class TicTacToeGUI extends JFrame
 
       add(topPanel);
       add(gamePanel);
+      
+      setVisible(true);
    }
    // handle button events
    private class ButtonListener implements ActionListener
@@ -86,6 +88,10 @@ public class TicTacToeGUI extends JFrame
       
       }
    }     
-
+   
+   public static void main (String [] args) {
+   
+      new TicTacToeGUI();
+   }
 
 }
