@@ -9,7 +9,7 @@ public class WarCardGame {
    
       startDeck = new Deck(Deck.STANDARD);
       prisoners = new Deck();
-      person = new Player("Xavier");
+      person = new Player("Bob");
       computer = new Player("Computer");
       
       startDeck.shuffle();
