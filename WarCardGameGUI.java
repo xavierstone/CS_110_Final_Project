@@ -6,8 +6,8 @@ public class WarCardGameGUI extends JFrame implements ActionListener {
 
    private WarCardGame game = new WarCardGame();
    private JPanel topPanel, gamePanel, playPanel;
-   private JLabel title, personStatus, computerStatus;
-   private JLabel personKnight, computerKnight;
+   private JLabel title, personStatus, computerStatus, middle;
+   private JLabel personKnight, computerKnight, prisonerDeck;
    private JButton drawButton;
    
    public WarCardGameGUI() {
@@ -16,15 +16,18 @@ public class WarCardGameGUI extends JFrame implements ActionListener {
       
       setBounds(100,100,800,600);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      setLayout(new GridLayout(3,1));
+      setLayout(new BorderLayout());
       
       topPanel = new JPanel();
-      gamePanel = new JPanel(new GridLayout(3,2));
+      topPanel.setBackground(Color.black);
+      gamePanel = new JPanel(new GridLayout(2,5));
+      gamePanel.setBackground(Color.black);
       playPanel = new JPanel();
+      playPanel.setBackground(Color.black);
       
-      add(topPanel);
-      add(gamePanel);
-      add(playPanel);
+      add(topPanel,BorderLayout.NORTH);
+      add(gamePanel,BorderLayout.CENTER);
+      add(playPanel,BorderLayout.SOUTH);
       
       title = new JLabel("The Game of War");
       topPanel.add(title);
@@ -32,14 +35,30 @@ public class WarCardGameGUI extends JFrame implements ActionListener {
       personStatus = new JLabel(game.getPersonStatus());
       gamePanel.add(personStatus);
       
+      if (game.getWinner()=="")
+         gamePanel.add(new JLabel(new ImageIcon("cardPics/back.jpg")));
+      
+      middle = new JLabel("",JLabel.CENTER);
+      gamePanel.add(middle);
+      
+      if (game.getWinner()=="")
+         gamePanel.add(new JLabel(new ImageIcon("cardPics/back.jpg")));
+      
       computerStatus = new JLabel(game.getComputerStatus());
       gamePanel.add(computerStatus);
       
+      gamePanel.add(new JLabel());
+            
       personKnight = new JLabel();
       gamePanel.add(personKnight);
       
+      prisonerDeck = new JLabel();
+      gamePanel.add(prisonerDeck);
+      
       computerKnight = new JLabel();
       gamePanel.add(computerKnight);
+      
+      gamePanel.add(new JLabel());
       
       drawButton = new JButton("Draw");
       drawButton.addActionListener(this);
@@ -58,13 +77,27 @@ public class WarCardGameGUI extends JFrame implements ActionListener {
       Object source = e.getSource();
       if (source == drawButton) {
       
-         if (game.move()==false)
+         if (game.move()==game.END) {
+            middle.setText("^_^");
             title.setText("Winner is "+game.getWinner());
+         } else if (game.move()==game.WAR) {
+            middle.setText("<?>");
+            title.setText("LADIES AND GENTLEMAN WE HAVE A WAR!");
+            prisonerDeck.setIcon(new ImageIcon("cardPics/back.jpg"));
+         } else if (game.move()==game.LEFT) {
+            middle.setText("<==");
+            title.setText("The Game of War");
+            prisonerDeck.setIcon(new ImageIcon());
+         } else {
+            middle.setText("==>");
+            title.setText("The Game of War");
+            prisonerDeck.setIcon(new ImageIcon());
+         }
          
          personStatus.setText(game.getPersonStatus());
          computerStatus.setText(game.getComputerStatus());
-         personKnight.setText(game.getPersonKnight());
-         computerKnight.setText(game.getComputerKnight());
+         personKnight.setIcon(new ImageIcon("cardPics/"+game.getPersonKnight().toString()+".jpg"));
+         computerKnight.setIcon(new ImageIcon("cardPics/"+game.getComputerKnight().toString()+".jpg"));
       }
    }
 }

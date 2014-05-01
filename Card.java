@@ -50,36 +50,36 @@ public class Card {
       String rankText, suitText;
       
       if (rank==Card.ACE) {
-         rankText = "Ace";
+         rankText = "ace";
       } else if (rank == Card.JACK ) {
-         rankText = "Jack";
+         rankText = "jack";
       } else if (rank == Card.QUEEN ) {
-         rankText = "Queen";
+         rankText = "queen";
       } else if (rank == Card.KING ) {
-         rankText = "King";
+         rankText = "king";
       } else {
          rankText = ""+rank;
       }
       
       switch (suit) {
          case Card.CLUBS:
-            suitText = "Clubs";
+            suitText = "c";
             break;
          case Card.DIAMONDS:
-            suitText = "Diamonds";
+            suitText = "d";
             break;
          case Card.SPADES:
-            suitText = "Spades";
+            suitText = "s";
             break;
          case Card.HEARTS:
-            suitText = "Hearts";
+            suitText = "h";
             break;
          default:
             suitText = "";
             break;
       }
    
-      return rankText+" of "+suitText;
+      return rankText+""+suitText;
    }
    
    /**

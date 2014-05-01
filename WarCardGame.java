@@ -5,6 +5,8 @@ public class WarCardGame {
    private Card personKnight, computerKnight;
    private Deck prisoners;
    
+   public final int LEFT=0, WAR=1, END=2, RIGHT=3;
+   
    public WarCardGame() {
    
       startDeck = new Deck(Deck.STANDARD);
@@ -17,40 +19,33 @@ public class WarCardGame {
       computer.addToPile(startDeck.deal(26));
    }
    
-   public boolean move() {
-      
-      boolean gameContinue = true;
-      boolean isWar = true;
-      
+   public int move() {
+   
       try {
       
-         do {
+         personKnight = person.draw();
+         computerKnight = computer.draw();
          
-            personKnight = person.draw();
-            computerKnight = computer.draw();
-            
-            if (personKnight.compareTo(computerKnight)>0) {
-               person.addToDiscard(personKnight);
-               person.addToDiscard(computerKnight);
-               person.addToDiscard(prisoners);
-               isWar=false;
-            } else if (personKnight.compareTo(computerKnight)<0) {
-               computer.addToDiscard(personKnight);
-               computer.addToDiscard(computerKnight);
-               computer.addToDiscard(prisoners);
-               isWar=false;
-            } else {
-               prisoners.addCard(personKnight);
-               prisoners.addCard(computerKnight);
-               prisoners.addCard(person.draw());
-               prisoners.addCard(computer.draw());
-            }
-         } while (isWar==true);
+         if (personKnight.compareTo(computerKnight)>0) {
+            person.addToDiscard(personKnight);
+            person.addToDiscard(computerKnight);
+            person.addToDiscard(prisoners);
+            return LEFT;
+         } else if (personKnight.compareTo(computerKnight)<0) {
+            computer.addToDiscard(personKnight);
+            computer.addToDiscard(computerKnight);
+            computer.addToDiscard(prisoners);
+            return RIGHT;
+         } else {
+            prisoners.addCard(personKnight);
+            prisoners.addCard(computerKnight);
+            prisoners.addCard(person.draw());
+            prisoners.addCard(computer.draw());
+            return WAR;
+         }
       } catch (ArrayIndexOutOfBoundsException e) {
-         gameContinue=false;
+         return END;
       }
-      
-      return gameContinue;
    }
    
    public String getPersonStatus() {
@@ -73,6 +68,11 @@ public class WarCardGame {
    public String getComputerKnight() {
    
       return computerKnight.toString();
+   }
+   
+   public int getStake() {
+   
+      return prisoners.cardsRemaining();
    }
    
    public String getWinner() {
